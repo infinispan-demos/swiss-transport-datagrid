@@ -15,13 +15,13 @@ import io.vertx.ext.web.handler.BodyHandler;
 
 /**
  * Verify by visiting these URLs:
- *    http://localhost:8080/stationboard
- *    http://localhost:8080/stationboard/8500081
- *    http://localhost:8080/stationboard/8500090
+ *    http://localhost:9000/stationboard
+ *    http://localhost:9000/stationboard/8500081
+ *    http://localhost:9000/stationboard/8500090
  */
 public class StationBoardRest extends AbstractVerticle {
 
-   private static final boolean PRETTY_JSON = true;
+   private static final boolean PRETTY_JSON = false;
 
    private Map<Long, JsonObject> boards = new HashMap<>();
 
@@ -41,7 +41,7 @@ public class StationBoardRest extends AbstractVerticle {
       router.get("/stationboard/:boardId").handler(this::handleGetBoard);
       router.get("/stationboard").handler(this::handleListBoards);
 
-      vertx.createHttpServer().requestHandler(router::accept).listen(8080);
+      vertx.createHttpServer().requestHandler(router::accept).listen(9000);
    }
 
    private void handleGetBoard(RoutingContext ctx) {
@@ -54,13 +54,23 @@ public class StationBoardRest extends AbstractVerticle {
          if (board == null) {
             sendError(404, response);
          } else {
-            HttpServerResponse rsp = response.putHeader("content-type", "application/json");
-            if (PRETTY_JSON)
-               rsp.end(board.encodePrettily());
-            else
-               rsp.end();
+            HttpServerResponse rsp = addHeaders(response);
+            encodeJson(board, rsp);
          }
       }
+   }
+
+   private void encodeJson(JsonObject json, HttpServerResponse rsp) {
+      if (PRETTY_JSON)
+         rsp.end(json.encodePrettily());
+      else
+         rsp.end(json.encode());
+   }
+
+   private HttpServerResponse addHeaders(HttpServerResponse response) {
+      return response
+            .putHeader("content-type", "application/json")
+            .putHeader("Access-Control-Allow-Origin", "*");
    }
 
    //   {"timestamp":1489745723891,
@@ -85,11 +95,8 @@ public class StationBoardRest extends AbstractVerticle {
                .put("total", 5)     // TODO: calculate from boards
                .put("delayed", 1)   // TODO: calculate from boards
          )));
-      HttpServerResponse rsp = ctx.response().putHeader("content-type", "application/json");
-      if (PRETTY_JSON)
-         rsp.end(json.encodePrettily());
-      else
-         rsp.end();
+      HttpServerResponse rsp = addHeaders(ctx.response());
+      encodeJson(json, rsp);
    }
 
    private void sendError(int statusCode, HttpServerResponse response) {
@@ -117,32 +124,30 @@ public class StationBoardRest extends AbstractVerticle {
       return new JsonObject()
          .put("timestamp", 1489745720247L)
          .put("stop", stop)
-         .put("events", new JsonArray(Arrays.asList(
-               new JsonObject().put("R 3168/Waldenburg/2016-02-29T17:07:00+0100", new JsonObject()
-                  .put("timestamp", 1489745720246L)
-                  .put("stop", stop)
-                  .put("train", new JsonObject()
+         .put("events", new JsonObject()
+            .put("R 3168/Waldenburg/2016-02-29T17:07:00+0100", new JsonObject()
+               .put("timestamp", 1489745720246L)
+               .put("stop", stop)
+               .put("train", new JsonObject()
                      .put("id", "R 3168/Waldenburg/2016-02-29T17:07:00+0100")
                      .put("category", "R")
                      .put("name", "R 3168")
                      .put("lastStopName", "Waldenburg"))
+               .put("arrivalTimestamp", 32984109000L)
+               .put("departureTimestamp", 1489746129000L)
+               .put("platform", ""))
+            .put("R 3169/Liestal/2016-02-29T17:12:00+0100", new JsonObject()
+                  .put("timestamp", 1489745720247L)
+                  .put("stop", stop)
+                  .put("train", new JsonObject()
+                        .put("id", "R 3169/Liestal/2016-02-29T17:12:00+0100")
+                        .put("category", "R")
+                        .put("name", "R 3169")
+                        .put("lastStopName", "Liestal"))
                   .put("arrivalTimestamp", 32984109000L)
-                  .put("departureTimestamp", 1489746129000L)
-                  .put("platform", "")
-               ),
-               new JsonObject().put("R 3169/Liestal/2016-02-29T17:12:00+0100", new JsonObject()
-                     .put("timestamp", 1489745720247L)
-                     .put("stop", stop)
-                     .put("train", new JsonObject()
-                           .put("id", "R 3169/Liestal/2016-02-29T17:12:00+0100")
-                           .put("category", "R")
-                           .put("name", "R 3169")
-                           .put("lastStopName", "Liestal"))
-                     .put("arrivalTimestamp", 32984109000L)
-                     .put("departureTimestamp", 1489746429000L)
-                     .put("platform", "")
-               )
-         )));
+                  .put("departureTimestamp", 1489746429000L)
+                  .put("platform", ""))
+         );
    }
 
    private JsonObject getAltmarktStop() {
@@ -170,71 +175,66 @@ public class StationBoardRest extends AbstractVerticle {
    private JsonObject getBaselBadBoard() {
       JsonObject stop = getBaselBadStop();
       return new JsonObject()
-            .put("timestamp", 1489745722329L)
-            .put("stop", stop)
-            .put("events", new JsonArray(Arrays.asList(
-                  new JsonObject().put("ICE 376/Frankfurt (Main) Hbf/2016-02-29T17:15:00+0100", new JsonObject()
-                        .put("timestamp", 1489745722321L)
-                        .put("stop", stop)
-                        .put("train", new JsonObject()
-                              .put("id", "ICE 376/Frankfurt (Main) Hbf/2016-02-29T17:15:00+0100")
-                              .put("category", "ICE")
-                              .put("name", "ICE 376")
-                              .put("lastStopName", "Frankfurt (Main) Hbf"))
-                        .put("arrivalTimestamp", 32984102000L)
-                        .put("departureTimestamp", 1489746602000L)
-                        .put("platform", "4")
-                  ),
-                  new JsonObject().put("RB 17375/Waldshut/2016-02-29T17:17:00+0100", new JsonObject()
-                        .put("timestamp", 1489745722324L)
-                        .put("stop", stop)
-                        .put("train", new JsonObject()
-                              .put("id", "RB 17375/Waldshut/2016-02-29T17:17:00+0100")
-                              .put("category", "RB")
-                              .put("name", "RB 17375")
-                              .put("lastStopName", "Waldshut"))
-                        .put("arrivalTimestamp", 32984102000L)
-                        .put("departureTimestamp", 1489746722000L)
-                        .put("platform", "")
-                  ),
-                  new JsonObject().put("RE 5343/Basel SBB/2016-02-29T17:14:00+0100", new JsonObject()
-                        .put("timestamp", 1489745722319L)
-                        .put("stop", stop)
-                        .put("train", new JsonObject()
-                              .put("id", "RE 5343/Basel SBB/2016-02-29T17:14:00+0100")
-                              .put("category", "RE")
-                              .put("name", "RE 5343")
-                              .put("lastStopName", "Basel SBB"))
-                        .put("arrivalTimestamp", 32984102000L)
-                        .put("departureTimestamp", 1489746542000L)
-                        .put("delayMinute", "3")
-                        .put("platform", "")
-                  ),
-                  new JsonObject().put("S 6/Zell (Wiesental)/2016-02-29T17:17:00+0100", new JsonObject()
-                        .put("timestamp", 1489745722326L)
-                        .put("stop", stop)
-                        .put("train", new JsonObject()
-                              .put("id", "S 6/Zell (Wiesental)/2016-02-29T17:17:00+0100")
-                              .put("category", "S")
-                              .put("name", "S 6")
-                              .put("lastStopName", "Zell (Wiesental)"))
-                        .put("arrivalTimestamp", 32984102000L)
-                        .put("departureTimestamp", 1489746722000L)
-                        .put("platform", "10")
-                  ),
-                  new JsonObject().put("S 6/Basel SBB/2016-02-29T17:19:00+0100", new JsonObject()
-                        .put("timestamp", 1489745722329L)
-                        .put("stop", stop)
-                        .put("train", new JsonObject()
-                              .put("id", "S 6/Basel SBB/2016-02-29T17:19:00+0100")
-                              .put("category", "S")
-                              .put("name", "S 6")
-                              .put("lastStopName", "Basel SBB"))
-                        .put("arrivalTimestamp", 32984102000L)
-                        .put("departureTimestamp", 1489746842000L)
-                        .put("platform", "")
-                  )
-            )));
+         .put("timestamp", 1489745722329L)
+         .put("stop", stop)
+         .put("events", new JsonObject()
+            .put("ICE 376/Frankfurt (Main) Hbf/2016-02-29T17:15:00+0100", new JsonObject()
+               .put("timestamp", 1489745722321L)
+               .put("stop", stop)
+               .put("train", new JsonObject()
+                     .put("id", "ICE 376/Frankfurt (Main) Hbf/2016-02-29T17:15:00+0100")
+                     .put("category", "ICE")
+                     .put("name", "ICE 376")
+                     .put("lastStopName", "Frankfurt (Main) Hbf"))
+               .put("arrivalTimestamp", 32984102000L)
+               .put("departureTimestamp", 1489746602000L)
+               .put("platform", "4"))
+            .put("RB 17375/Waldshut/2016-02-29T17:17:00+0100", new JsonObject()
+               .put("timestamp", 1489745722324L)
+               .put("stop", stop)
+               .put("train", new JsonObject()
+                     .put("id", "RB 17375/Waldshut/2016-02-29T17:17:00+0100")
+                     .put("category", "RB")
+                     .put("name", "RB 17375")
+                     .put("lastStopName", "Waldshut"))
+               .put("arrivalTimestamp", 32984102000L)
+               .put("departureTimestamp", 1489746722000L)
+               .put("platform", ""))
+            .put("RE 5343/Basel SBB/2016-02-29T17:14:00+0100", new JsonObject()
+               .put("timestamp", 1489745722319L)
+               .put("stop", stop)
+               .put("train", new JsonObject()
+                     .put("id", "RE 5343/Basel SBB/2016-02-29T17:14:00+0100")
+                     .put("category", "RE")
+                     .put("name", "RE 5343")
+                     .put("lastStopName", "Basel SBB"))
+               .put("arrivalTimestamp", 32984102000L)
+               .put("departureTimestamp", 1489746542000L)
+               .put("delayMinute", "3")
+               .put("platform", ""))
+            .put("S 6/Zell (Wiesental)/2016-02-29T17:17:00+0100", new JsonObject()
+               .put("timestamp", 1489745722326L)
+               .put("stop", stop)
+               .put("train", new JsonObject()
+                     .put("id", "S 6/Zell (Wiesental)/2016-02-29T17:17:00+0100")
+                     .put("category", "S")
+                     .put("name", "S 6")
+                     .put("lastStopName", "Zell (Wiesental)"))
+               .put("arrivalTimestamp", 32984102000L)
+               .put("departureTimestamp", 1489746722000L)
+               .put("platform", "10"))
+            .put("S 6/Basel SBB/2016-02-29T17:19:00+0100", new JsonObject()
+               .put("timestamp", 1489745722329L)
+               .put("stop", stop)
+               .put("train", new JsonObject()
+                     .put("id", "S 6/Basel SBB/2016-02-29T17:19:00+0100")
+                     .put("category", "S")
+                     .put("name", "S 6")
+                     .put("lastStopName", "Basel SBB"))
+               .put("arrivalTimestamp", 32984102000L)
+               .put("departureTimestamp", 1489746842000L)
+               .put("platform", ""))
+         );
    }
 
    private JsonObject getBaselBadStop() {

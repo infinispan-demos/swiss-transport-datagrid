@@ -1,0 +1,8 @@
+/pouch__all_dbs__
+/skimdb
+.DS_Store
+dist/**
+/_replicator
+/binarydb
+/_users
+static
