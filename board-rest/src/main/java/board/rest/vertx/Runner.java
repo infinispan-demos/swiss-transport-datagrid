@@ -1,28 +1,34 @@
-package board.rest;
-
-import io.vertx.core.DeploymentOptions;
-import io.vertx.core.Vertx;
-import io.vertx.core.VertxOptions;
+package board.rest.vertx;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-public class VertxRunner {
+import io.vertx.core.DeploymentOptions;
+import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 
-   private static final String DIR = "web-examples";
-   private static final String JAVA_DIR = DIR + "/src/test/java/";
+public class Runner {
 
-   public static void runClusteredExample(Class clazz) {
-      runExample(JAVA_DIR, clazz, new VertxOptions().setClustered(true), null);
+//   private static final String DIR = "board-rest";
+//   private static final String JAVA_DIR = DIR + "/src/test/java/";
+
+   private final String javaDir;
+
+   public Runner(String javaDir) {
+      this.javaDir = javaDir;
    }
 
-   public static void runExample(Class clazz) {
-      runExample(JAVA_DIR, clazz, new VertxOptions().setClustered(false), null);
+   public void runClusteredExample(Class clazz) {
+      runExample(javaDir, clazz, new VertxOptions().setClustered(true), null);
    }
 
-   public static void runExample(Class clazz, DeploymentOptions options) {
-      runExample(JAVA_DIR, clazz, new VertxOptions().setClustered(false), options);
+   public void runExample(Class clazz) {
+      runExample(javaDir, clazz, new VertxOptions().setClustered(false), null);
+   }
+
+   public void runExample(Class clazz, DeploymentOptions options) {
+      runExample(javaDir, clazz, new VertxOptions().setClustered(false), options);
    }
 
    public static void runExample(String exampleDir, Class clazz, VertxOptions options, DeploymentOptions

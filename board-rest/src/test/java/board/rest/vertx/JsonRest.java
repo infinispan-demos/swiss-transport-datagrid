@@ -1,4 +1,4 @@
-package board.rest;
+package board.rest.vertx;
 
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.http.HttpServerResponse;
@@ -16,11 +16,12 @@ import java.util.Map;
  *    http://localhost:8080/products
  *    http://localhost:8080/products/prod7340
  */
-public class VertxJsonRest extends AbstractVerticle {
+public class JsonRest extends AbstractVerticle {
 
    // Convenience method so you can run it in your IDE
    public static void main(String[] args) {
-      VertxRunner.runExample(VertxJsonRest.class);
+      Runner r = new Runner("board-rest/src/test/java/");
+      r.runExample(JsonRest.class);
    }
 
    private Map<String, JsonObject> products = new HashMap<>();
