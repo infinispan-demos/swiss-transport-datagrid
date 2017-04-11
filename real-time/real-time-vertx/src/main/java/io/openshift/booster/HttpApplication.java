@@ -9,6 +9,9 @@ import io.vertx.ext.web.handler.StaticHandler;
 
 import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
 
+import org.infinispan.client.hotrod.RemoteCache;
+import org.infinispan.client.hotrod.RemoteCacheManager;
+
 public class HttpApplication extends AbstractVerticle {
 
   private static final String template = "Hello, %s!";
@@ -30,10 +33,20 @@ public class HttpApplication extends AbstractVerticle {
             config().getInteger("http.port", 8080), ar -> {
               if (ar.succeeded()) {
                 System.out.println("Server starter on port " + ar.result().actualPort());
+                testRemoteCacheManager();
               }
               future.handle(ar.mapEmpty());
             });
 
+  }
+
+  private void testRemoteCacheManager() {
+    System.out.println("Testing remote cache manager connection");
+    RemoteCacheManager remote = new RemoteCacheManager();
+    RemoteCache<String, String> cache = remote.getCache("default");
+    System.out.println("Store test key/value pair");
+    cache.put("hello", "world");
+    System.out.println("Read key: " + cache.get("hello"));
   }
 
   private void greeting(RoutingContext rc) {

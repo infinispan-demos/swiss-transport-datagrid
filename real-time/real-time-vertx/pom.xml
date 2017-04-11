@@ -35,6 +35,8 @@
     <vertx.version>3.4.1</vertx.version>
     <vertx-maven-plugin.version>1.0.6</vertx-maven-plugin.version>
     <vertx.verticle>io.openshift.booster.HttpApplication</vertx.verticle>
+
+    <infinispan.version>9.0.0.CR4</infinispan.version>
   </properties>
 
   <dependencyManagement>
@@ -45,6 +47,13 @@
         <version>${vertx.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.infinispan</groupId>
+        <artifactId>infinispan-bom</artifactId>
+        <version>${infinispan.version}</version>
+        <scope>import</scope>
+        <type>pom</type>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -57,6 +66,10 @@
     <dependency>
       <groupId>io.vertx</groupId>
       <artifactId>vertx-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.infinispan</groupId>
+      <artifactId>infinispan-client-hotrod</artifactId>
     </dependency>
 
     <!-- Testing -->
