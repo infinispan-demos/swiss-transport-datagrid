@@ -17,11 +17,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="board-rest" />
+        <module name="http-vertx" />
         <module name="rest" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="board-rest" target="1.8" />
+      <module name="http-vertx" target="1.8" />
       <module name="rest" target="1.5" />
     </bytecodeTargetLevel>
   </component>

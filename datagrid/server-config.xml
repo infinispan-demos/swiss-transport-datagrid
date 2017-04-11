@@ -334,39 +334,11 @@
                <transport type="TCP" socket-binding="jgroups-tcp">
                   <property name="logical_addr_cache_expiration">360000</property>
                </transport>
-               <!-- Before we begin, we need to know how long does GC take -->
-               <!-- On my local machine it's < 0.8s -->
-               <protocol type="kubernetes.KUBE_PING">
-                  <!-- We ping other nodes every 1s -->
-                  <property name="operationSleep">1000</property>
-                  <!-- We assume that a node is dead after 3 * 1s = 3s -->
-                  <!-- This obviously needs to be longer than GC -->
-                  <property name="operationAttempts">3</property>
-               </protocol>
-               <protocol type="MERGE3">
-                  <!-- The min and max intervals need to fit in Liveness probe -->
-                  <!-- We use 3 * 10s = 30s total -->
-                  <property name="min_interval">1000</property>
-                  <property name="max_interval">8000</property>
-                  <!-- We check for inconsistencies every 10s -->
-                  <!-- This should play nice with Readiness Probe -->
-                  <property name="check_interval">10000</property>
-               </protocol>
+               <protocol type="kubernetes.KUBE_PING" />
+               <protocol type="MERGE3" />
                <protocol type="FD_SOCK" socket-binding="jgroups-tcp-fd"/>
-               <!-- Note that JGroups are configured for the demo. On real production system you should use
-                    much longer timeouts -->
-               <protocol type="FD_ALL">
-                  <!-- The timeout after which we suspect P -->
-                  <!-- Needs to be much larger than GC -->
-                  <!-- Let's use 10 * 0.8s (GC) = 8s -->
-                  <property name="timeout">8000</property>
-                  <!-- How often we check heartbeat messages -->
-                  <property name="timeout_check_interval">2000</property>
-                  <!-- How often we send out heartbeats -->
-                  <property name="interval">3000</property>
-               </protocol>
-               <!-- If we want to go fast, we need to remove verify suspect -->
-               <!-- <protocol type="VERIFY_SUSPECT"/> -->
+               <protocol type="FD_ALL" />
+               <protocol type="VERIFY_SUSPECT"/>
                <protocol type="pbcast.NAKACK2">
                   <property name="use_mcast_xmit">false</property>
                </protocol>
