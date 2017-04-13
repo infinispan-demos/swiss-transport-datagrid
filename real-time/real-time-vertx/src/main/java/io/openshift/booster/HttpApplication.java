@@ -7,6 +7,10 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.StaticHandler;
+import io.vertx.ext.web.handler.sockjs.BridgeEventType;
+import io.vertx.ext.web.handler.sockjs.BridgeOptions;
+import io.vertx.ext.web.handler.sockjs.PermittedOptions;
+import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
 import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
 
@@ -37,6 +41,18 @@ public class HttpApplication extends AbstractVerticle {
               }
               future.handle(ar.mapEmpty());
             });
+
+    SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
+    PermittedOptions outboundPermitted = new PermittedOptions().setAddress("some-address");
+    BridgeOptions options = new BridgeOptions().addOutboundPermitted(outboundPermitted);
+    sockJSHandler.bridge(options, be -> {
+      if (be.type() == BridgeEventType.REGISTER) {
+        System.out.println("sockJs: connected");
+        vertx.eventBus().publish("some-address", "hey all, we have a new subscriber ");
+      }
+      be.complete(true);
+    });
+    router.route("/eventbus/*").handler(sockJSHandler);
 
     deployRealTimeVerticle();
   }

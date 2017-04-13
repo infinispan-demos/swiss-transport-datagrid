@@ -45,6 +45,8 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
                         .filter(e -> e.delayMin > 0)
                         .forEach(e -> {
                            System.out.println(e);
+                           vertx.eventBus().publish("some-address", "world");
+
 //                           queue.add(new StationBoardView(
 //                                 e.train.cat,
 //                                 String.format("%tR", e.departureTs),

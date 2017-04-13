@@ -39,6 +39,7 @@
     <infinispan.version>9.0.0.CR4</infinispan.version>
   </properties>
 
+  <!-- TODO: Avoid duplication of vert.x dependencies w/ real-time-fx -->
   <dependencyManagement>
     <dependencies>
       <dependency>

@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/board-rest/pom.xml" />
         <option value="$PROJECT_DIR$/real-time/real-time-http/pom.xml" />
         <option value="$PROJECT_DIR$/real-time/real-time-vertx/pom.xml" />
+        <option value="$PROJECT_DIR$/real-time/real-time-fx/pom.xml" />
       </list>
     </option>
   </component>
