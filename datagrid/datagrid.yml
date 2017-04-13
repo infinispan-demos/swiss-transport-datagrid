@@ -30,7 +30,7 @@ items:
           - custom/server-config
           - -Djboss.default.jgroups.stack=kubernetes
           - --debug
-          image: jboss/infinispan-server:9.0.0.CR4
+          image: galderz/infinispan-server:9.0.1-SNAPSHOT
           imagePullPolicy: Always
           name: infinispan-server
           ports:
@@ -45,6 +45,10 @@ items:
             valueFrom: {fieldRef: {apiVersion: v1, fieldPath: metadata.namespace}}
           - name: JAVA_OPTS
             value: "-server -Xms1G -Xmx1G -XX:+UseConcMarkSweepGC -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -XX:+PrintGC"
+#          - name: APP_USER
+#            value: "developer"
+#          - name: APP_PASS
+#            value: "developer"
           terminationMessagePath: /dev/termination-log
           terminationGracePeriodSeconds: 90
           volumeMounts:

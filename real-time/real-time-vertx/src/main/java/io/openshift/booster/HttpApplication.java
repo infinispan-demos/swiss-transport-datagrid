@@ -1,6 +1,7 @@
 package io.openshift.booster;
 
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -33,20 +34,16 @@ public class HttpApplication extends AbstractVerticle {
             config().getInteger("http.port", 8080), ar -> {
               if (ar.succeeded()) {
                 System.out.println("Server starter on port " + ar.result().actualPort());
-                testRemoteCacheManager();
               }
               future.handle(ar.mapEmpty());
             });
 
+    deployRealTimeVerticle();
   }
 
-  private void testRemoteCacheManager() {
-    System.out.println("Testing remote cache manager connection");
-    RemoteCacheManager remote = new RemoteCacheManager();
-    RemoteCache<String, String> cache = remote.getCache("default");
-    System.out.println("Store test key/value pair");
-    cache.put("hello", "world");
-    System.out.println("Read key: " + cache.get("hello"));
+  private void deployRealTimeVerticle() {
+    DeploymentOptions options = new DeploymentOptions().setWorker(true);
+    vertx.deployVerticle("delays.query.continuous.RealTimeVerticle", options);
   }
 
   private void greeting(RoutingContext rc) {

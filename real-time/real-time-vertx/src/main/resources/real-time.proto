@@ -1,0 +1,104 @@
+package real_time;
+
+/**
+ * @Indexed
+ */
+message Station {
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required int64 id = 1;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required string name = 2;
+
+    message GeoLoc {
+        required double lat = 1;
+        required double lng = 2;
+    }
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required GeoLoc loc = 3;
+
+}
+
+/**
+ * @Indexed
+ */
+message StationBoard {
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required fixed64 ts = 1;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    repeated Stop entries = 2;  // repeated cannot be required
+
+}
+
+/**
+ * @Indexed
+ */
+message Stop {
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required Train train = 1;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required fixed64 departureTs = 2;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required string platform = 3;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    optional fixed64 arrivalTs = 4;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    optional int64 delayMin = 5;
+
+}
+
+/**
+ * @Indexed
+ */
+message Train {
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required string id = 1;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required string name = 2;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required string to = 3;
+
+    /**
+     * @Field(store = Store.YES)
+     */
+    required string cat = 4; // TODO: Enumeration?
+
+}
