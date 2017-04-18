@@ -9,11 +9,11 @@ public class TestApp {
    public static void main(String[] args) {
       Vertx vertx = Vertx.vertx();
       HttpClient client = vertx.createHttpClient();
-      client.websocket(80, "real-time-vertx-myproject.172.20.10.4.xip.io", "/eventbus/websocket", ws -> {
+      client.websocket(80, "real-time-vertx-myproject.127.0.0.1.xip.io", "/eventbus/websocket", ws -> {
          System.out.println("Connected");
 
          // Register
-         JsonObject msg = new JsonObject().put("type", "register").put("address", "some-address");
+         JsonObject msg = new JsonObject().put("type", "register").put("address", "delays");
          ws.writeFrame(io.vertx.core.http.WebSocketFrame.textFrame(msg.encode(), true));
 
          ws.handler(buff -> {

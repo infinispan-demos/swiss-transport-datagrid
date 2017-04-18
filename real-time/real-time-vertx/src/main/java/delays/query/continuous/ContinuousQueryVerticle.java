@@ -3,6 +3,9 @@ package delays.query.continuous;
 import static delays.query.continuous.util.Protobuf.addProtoDescriptorToClient;
 import static delays.query.continuous.util.Protobuf.addProtoMarshallersToClient;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
 import org.infinispan.client.hotrod.Search;
@@ -13,7 +16,9 @@ import org.infinispan.query.dsl.QueryFactory;
 
 import delays.query.continuous.pojos.Station;
 import delays.query.continuous.pojos.StationBoard;
+import delays.query.continuous.pojos.Stop;
 import io.vertx.core.AbstractVerticle;
+import io.vertx.core.json.JsonObject;
 
 public class ContinuousQueryVerticle extends AbstractVerticle {
 
@@ -45,7 +50,7 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
                         .filter(e -> e.delayMin > 0)
                         .forEach(e -> {
                            System.out.println(e);
-                           vertx.eventBus().publish("some-address", "world");
+                           vertx.eventBus().publish("delays", toJson(key, e));
 
 //                           queue.add(new StationBoardView(
 //                                 e.train.cat,
@@ -69,6 +74,17 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
 
       continuousQuery = Search.getContinuousQuery(stationBoards);
       continuousQuery.addContinuousQueryListener(query, listener);
+   }
+
+   private String toJson(Station station, Stop stop) {
+      Map<String, Object> map = new HashMap<>();
+      map.put("type", stop.train.cat);
+      map.put("departure", String.format("%tR", stop.departureTs));
+      map.put("station", station.name);
+      map.put("destination", stop.train.to);
+      map.put("delay", stop.delayMin);
+      map.put("trainName", stop.train.name);
+      return new JsonObject(map).encode();
    }
 
    @Override

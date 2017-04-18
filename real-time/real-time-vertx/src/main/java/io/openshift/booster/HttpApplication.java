@@ -43,12 +43,12 @@ public class HttpApplication extends AbstractVerticle {
             });
 
     SockJSHandler sockJSHandler = SockJSHandler.create(vertx);
-    PermittedOptions outboundPermitted = new PermittedOptions().setAddress("some-address");
-    BridgeOptions options = new BridgeOptions().addOutboundPermitted(outboundPermitted);
+    PermittedOptions outPermit = new PermittedOptions().setAddress("delays");
+    BridgeOptions options = new BridgeOptions().addOutboundPermitted(outPermit);
     sockJSHandler.bridge(options, be -> {
       if (be.type() == BridgeEventType.REGISTER) {
         System.out.println("sockJs: connected");
-        vertx.eventBus().publish("some-address", "hey all, we have a new subscriber ");
+        vertx.eventBus().publish("delays", "hey all, we have a new subscriber ");
       }
       be.complete(true);
     });
