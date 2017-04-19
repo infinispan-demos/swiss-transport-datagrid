@@ -22,8 +22,10 @@ public class RealTimeVerticle extends AbstractVerticle {
       client = new RemoteCacheManager();
       System.out.println("Started remote cache manager");
 
+      // Clear previous data just in case
+      client.getCache("default").clear();
+
       addProtoDescriptorToServer(client.getCache(PROTOBUF_METADATA_CACHE_NAME));
-      deployInjectorVerticle();
       deployContinuousQueryVerticle();
    }
 
@@ -31,11 +33,6 @@ public class RealTimeVerticle extends AbstractVerticle {
    public void stop() throws Exception {
       if (client != null)
          client.stop();
-   }
-
-   private void deployInjectorVerticle() {
-      DeploymentOptions options = new DeploymentOptions().setWorker(true);
-      vertx.deployVerticle("delays.query.continuous.InjectorVerticle", options);
    }
 
    private void deployContinuousQueryVerticle() {

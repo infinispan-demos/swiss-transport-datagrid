@@ -49,17 +49,10 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
                   value.entries.stream()
                         .filter(e -> e.delayMin > 0)
                         .forEach(e -> {
-                           System.out.println(e);
-                           vertx.eventBus().publish("delays", toJson(key, e));
-
-//                           queue.add(new StationBoardView(
-//                                 e.train.cat,
-//                                 String.format("%tR", e.departureTs),
-//                                 key.name,
-//                                 e.train.to,
-//                                 "+" + e.delayMin,
-//                                 e.train.name
-//                           ));
+                           vertx.runOnContext(x -> {
+                              System.out.println(e);
+                              vertx.eventBus().publish("delays", toJson(key, e));
+                           });
                         });
                }
 

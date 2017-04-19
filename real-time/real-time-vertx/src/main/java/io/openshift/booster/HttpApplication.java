@@ -1,5 +1,7 @@
 package io.openshift.booster;
 
+import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
+
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.DeploymentOptions;
 import io.vertx.core.Future;
@@ -12,14 +14,17 @@ import io.vertx.ext.web.handler.sockjs.BridgeOptions;
 import io.vertx.ext.web.handler.sockjs.PermittedOptions;
 import io.vertx.ext.web.handler.sockjs.SockJSHandler;
 
-import static io.vertx.core.http.HttpHeaders.CONTENT_TYPE;
-
-import org.infinispan.client.hotrod.RemoteCache;
-import org.infinispan.client.hotrod.RemoteCacheManager;
-
 public class HttpApplication extends AbstractVerticle {
 
   private static final String template = "Hello, %s!";
+
+  private volatile boolean injectorStarted = false;
+
+  // Convenience method so you can run it in your IDE
+  public static void main(String[] args) {
+    Runner r = new Runner("real-time-vertx/src/main/java/");
+    r.runExample(HttpApplication.class);
+  }
 
   @Override
   public void start(Future<Void> future) {
@@ -47,12 +52,19 @@ public class HttpApplication extends AbstractVerticle {
     BridgeOptions options = new BridgeOptions().addOutboundPermitted(outPermit);
     sockJSHandler.bridge(options, be -> {
       if (be.type() == BridgeEventType.REGISTER) {
-        System.out.println("sockJs: connected");
-        vertx.eventBus().publish("delays", "hey all, we have a new subscriber ");
+        System.out.println("SockJs: Connected, start data injector");
+        if (!injectorStarted) {
+          deployInjectorVerticle();
+          injectorStarted = true;
+        }
       }
       be.complete(true);
     });
     router.route("/eventbus/*").handler(sockJSHandler);
+
+//    vertx.eventBus().consumer("delays", msg -> {
+//      System.out.println("Received: " + msg.body());
+//    });
 
     deployRealTimeVerticle();
   }
@@ -75,4 +87,10 @@ public class HttpApplication extends AbstractVerticle {
         .putHeader(CONTENT_TYPE, "application/json; charset=utf-8")
         .end(response.encodePrettily());
   }
+
+  private void deployInjectorVerticle() {
+    DeploymentOptions options = new DeploymentOptions().setWorker(true);
+    vertx.deployVerticle("delays.query.continuous.InjectorVerticle", options);
+  }
+
 }

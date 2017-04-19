@@ -3,7 +3,7 @@ package delays.query.continuous;
 import static delays.query.continuous.util.Protobuf.addProtoDescriptorToClient;
 import static delays.query.continuous.util.Protobuf.addProtoMarshallersToClient;
 
-import java.nio.file.Path;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.infinispan.client.hotrod.RemoteCache;
@@ -16,6 +16,7 @@ import io.vertx.core.AbstractVerticle;
 public class InjectorVerticle extends AbstractVerticle {
 
    private final AtomicBoolean stopped = new AtomicBoolean(false);
+   private Future<Void> injectFuture;
 
    private RemoteCacheManager client;
    private RemoteCache<Station, StationBoard> stationBoards;
@@ -29,14 +30,16 @@ public class InjectorVerticle extends AbstractVerticle {
       addProtoDescriptorToClient(client);
       addProtoMarshallersToClient(client);
 
-      Path gunzipped = Injector.gunzip();
       stationBoards = client.getCache("default");
-      Injector.cycle(stationBoards, gunzipped, stopped);
+      injectFuture = Injector.submitCycle(stationBoards, stopped);
    }
 
    @Override
    public void stop() throws Exception {
       stopped.set(true);
+
+      if (injectFuture != null)
+         injectFuture.cancel(true);
 
       if (stationBoards != null)
          stationBoards.clear();;

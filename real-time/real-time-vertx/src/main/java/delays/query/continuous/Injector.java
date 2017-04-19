@@ -68,34 +68,25 @@ public class Injector {
    static Station prevStation = null;
    static Date prevTs = null;
 
-   public static Path gunzip() throws Exception {
-      return Gzip.gunzip(
-            Injector.class.getResourceAsStream(GZIP_FILE_NAME),
-            new File(GZIP_TARGET_FILE_NAME));
+   public static Future<Void> submitCycle(
+         RemoteCache<Station, StationBoard> boards, AtomicBoolean stopped) throws Exception {
+      return Executors.newSingleThreadExecutor().submit(() -> {
+         try {
+            System.out.println("Cycle...");
+            cycle(boards, stopped);
+            return null;
+         } catch (Throwable t) {
+            t.printStackTrace();
+            return null;
+         }
+      });
    }
 
-//   public static Future<Void> cycle(RemoteCache<Station, StationBoard> boards) throws Exception {
-//      System.out.println("Cycle...");
-//      doCycle(boards, gunzipped);
-//      return null;
-//
-////      return Executors.newSingleThreadExecutor().submit(() -> {
-////         try {
-////            System.out.println("Cycle...");
-////            doCycle(boards, gunzipped);
-////            return null;
-////         } catch (Throwable t) {
-////            t.printStackTrace();
-////            return null;
-////         }
-////      });
-//   }
-
    public static void cycle(
-         RemoteCache<Station, StationBoard> boards,
-         Path gunzipped,
-         AtomicBoolean stopped
-   ) throws Exception {
+         RemoteCache<Station, StationBoard> boards, AtomicBoolean stopped) throws Exception {
+      Path gunzipped = Gzip.gunzip(
+            Injector.class.getResourceAsStream(GZIP_FILE_NAME),
+            new File(GZIP_TARGET_FILE_NAME));
       try (Stream<String> lines = Files.lines(gunzipped)) {
          JSONParser parser = new JSONParser();
          List<Stop> boardEntries = new ArrayList<>();

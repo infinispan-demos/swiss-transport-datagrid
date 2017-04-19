@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.vertx.core.Vertx;
 import io.vertx.core.http.HttpClient;
+import io.vertx.core.http.WebSocket;
 import io.vertx.core.json.JsonObject;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -14,13 +15,11 @@ import javafx.concurrent.Task;
 
 public class FxTask extends Task<Void> {
 
+   static final String HTTP_HOST = System.getProperty("http.host", "real-time-vertx-myproject.127.0.0.1.xip.io");
+   static final int HTTP_PORT = Integer.getInteger("http.port", 80);
+
    private ObservableList<StationBoardView> partialResults =
          FXCollections.observableArrayList();
-
-//   private Future<Void> injectorFuture;
-//   private ContinuousQuery<Station, StationBoard> continuousQuery;
-//   private RemoteCache<Station, StationBoard> stationBoards;
-//   private RemoteCacheManager client;
 
    private Vertx vertx = Vertx.vertx();
    private HttpClient client = vertx.createHttpClient();
@@ -47,8 +46,14 @@ public class FxTask extends Task<Void> {
    }
 
    private void connectHttp() {
-      client.websocket(80, "real-time-vertx-myproject.127.0.0.1.xip.io", "/eventbus/websocket", ws -> {
+      client.websocket(HTTP_PORT, HTTP_HOST, "/eventbus/websocket", ws -> {
          System.out.println("Connected");
+         sendPing(ws);
+
+         // Send pings periodically to avoid the websocket connection being closed
+         vertx.setPeriodic(5000, id -> {
+            sendPing(ws);
+         });
 
          // Register
          JsonObject msg = new JsonObject().put("type", "register").put("address", "delays");
@@ -65,6 +70,11 @@ public class FxTask extends Task<Void> {
                   json.getString("trainName")));
          });
       });
+   }
+
+   static void sendPing(WebSocket ws) {
+      JsonObject msg = new JsonObject().put("type", "ping");
+      ws.writeFrame(io.vertx.core.http.WebSocketFrame.textFrame(msg.encode(), true));
    }
 
    @Override
