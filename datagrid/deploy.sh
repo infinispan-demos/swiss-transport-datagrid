@@ -2,6 +2,11 @@
 
 set -e -x
 
-oc policy add-role-to-user view system:serviceaccount:myproject:default -n myproject || true
-oc create configmap server-configuration --from-file=./server-config.xml  || true
-oc create -f ./datagrid.yml || true
+(cd ../analytics; mvn clean package -pl analytics-server -am)
+rm -drf target
+mkdir target
+cp ../analytics/analytics-server/target/analytics-server-1.0-SNAPSHOT.jar target/analytics-server.jar
+
+oc policy add-role-to-user view system:serviceaccount:myproject:default -n myproject
+oc create configmap server-configuration --from-file=./server-config.xml
+oc create -f ./datagrid.yml

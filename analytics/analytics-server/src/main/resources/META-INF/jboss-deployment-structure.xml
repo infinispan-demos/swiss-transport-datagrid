@@ -1,0 +1,9 @@
+<jboss-deployment-structure>
+   <deployment>
+      <!-- This allows you to define additional dependencies, it is the same as using the Dependencies: manifest attribute -->
+      <dependencies>
+         <module name="org.infinispan.protostream" />
+         <module name="org.infinispan.remote-query.server" />
+      </dependencies>
+   </deployment>
+</jboss-deployment-structure>

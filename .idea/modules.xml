@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/analytics/analytics.iml" filepath="$PROJECT_DIR$/analytics/analytics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/analytics/analytics-client/analytics-client.iml" filepath="$PROJECT_DIR$/analytics/analytics-client/analytics-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/analytics/analytics-domain/analytics-domain.iml" filepath="$PROJECT_DIR$/analytics/analytics-domain/analytics-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/analytics/analytics-server/analytics-server.iml" filepath="$PROJECT_DIR$/analytics/analytics-server/analytics-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/board-rest/board-rest.iml" filepath="$PROJECT_DIR$/board-rest/board-rest.iml" />
       <module fileurl="file://$PROJECT_DIR$/datagrid/datagrid.iml" filepath="$PROJECT_DIR$/datagrid/datagrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/real-time/real-time-vertx/http-vertx.iml" filepath="$PROJECT_DIR$/real-time/real-time-vertx/http-vertx.iml" />

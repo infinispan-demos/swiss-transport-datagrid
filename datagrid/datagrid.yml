@@ -54,6 +54,8 @@ items:
           volumeMounts:
           - mountPath: /opt/jboss/infinispan-server/standalone/configuration/custom
             name: config-volume
+          - mountPath: /opt/jboss/infinispan-server/standalone/deployments
+            name: app-jar-volume
           livenessProbe:
             exec:
               command:
@@ -77,6 +79,9 @@ items:
         - configMap:
             name: server-configuration
           name: config-volume
+        - name: app-jar-volume
+          hostPath:
+            path: /Users/g/0/events/gids17/swiss-transport-datagrid/datagrid/target
     triggers:
     - type: ConfigChange
 - apiVersion: v1

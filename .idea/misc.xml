@@ -13,6 +13,7 @@
         <option value="$PROJECT_DIR$/real-time/real-time-http/pom.xml" />
         <option value="$PROJECT_DIR$/real-time/real-time-vertx/pom.xml" />
         <option value="$PROJECT_DIR$/real-time/real-time-fx/pom.xml" />
+        <option value="$PROJECT_DIR$/analytics/pom.xml" />
       </list>
     </option>
   </component>

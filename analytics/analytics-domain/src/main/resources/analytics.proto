@@ -1,0 +1,43 @@
+package analytics;
+
+message Station {
+
+    required int64 id = 1;
+
+    required bytes name = 2;
+
+}
+
+message Stop {
+
+    required Train train = 1;
+
+    required fixed64 departureTs = 2;
+
+    optional bytes platform = 3;
+
+    optional fixed64 arrivalTs = 4;
+
+    required int32 delayMin = 5;
+
+    required Station station = 6;
+
+    optional fixed64 ts = 7;
+
+    required bytes capacity1st = 8;
+
+    required bytes capacity2nd = 9;
+
+}
+
+message Train {
+
+    required bytes name = 1;
+
+    required bytes to = 2;
+
+    required bytes cat = 3; // TODO: Enumeration?
+
+    required bytes operator = 4;
+
+}
