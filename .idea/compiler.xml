@@ -28,7 +28,7 @@
     <bytecodeTargetLevel>
       <module name="analytics" target="1.5" />
       <module name="analytics-client" target="1.8" />
-      <module name="analytics-domain" target="1.5" />
+      <module name="analytics-domain" target="1.8" />
       <module name="analytics-server" target="1.8" />
       <module name="board-rest" target="1.8" />
       <module name="http-vertx" target="1.8" />
