@@ -11,7 +11,7 @@ import java.util.Collections;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
-import org.infinispan.client.hotrod.configuration.ConfigurationBuilder;
+import org.infinispan.client.hotrod.configuration.Configuration;
 import org.infinispan.client.hotrod.marshall.ProtoStreamMarshaller;
 import org.infinispan.protostream.FileDescriptorSource;
 import org.infinispan.protostream.SerializationContext;
@@ -19,17 +19,28 @@ import org.infinispan.protostream.SerializationContext;
 import delays.java.stream.pojos.Station;
 import delays.java.stream.pojos.Stop;
 import delays.java.stream.pojos.Train;
+import io.vertx.core.AbstractVerticle;
+import io.vertx.core.Future;
 
-public class InjectApp {
+public class InjectorVerticle extends AbstractVerticle {
 
-   public static void main(String[] args) throws Exception {
-      ConfigurationBuilder builder = new ConfigurationBuilder();
-      builder.addServer()
-            .host("localhost")
-            .port(11322)
-            .marshaller(new ProtoStreamMarshaller());
-      RemoteCacheManager client = new RemoteCacheManager(builder.build());
-      RemoteCache<String, Stop> cache = client.getCache("analytics");
+   private RemoteCacheManager client;
+   private RemoteCache<String, Stop> stops;
+
+   @Override
+   public void start(Future<Void> future) throws Exception {
+      System.out.println("Start analytics injector verticle");
+
+      Configuration cfg =
+            RemoteDataGrid.config()
+                  .andThen(RemoteDataGrid.protostream())
+                  .get().build();
+      client = new RemoteCacheManager(cfg);
+
+      System.out.println("Started remote cache manager");
+
+      stops = client.getCache("analytics");
+      stops.clear();
 
       addProtoDescriptorToServer(client.getCache(PROTOBUF_METADATA_CACHE_NAME));
       addProtoMarshallersToServer(); // Required for server tasks
@@ -37,15 +48,12 @@ public class InjectApp {
       addProtoDescriptorToClient(client);
       addProtoMarshallersToClient(client);
 
-      injectData(cache);
+      Injector.submitData(stops, future);
    }
 
    private static void addProtoMarshallersToServer() {
-      ConfigurationBuilder builder = new ConfigurationBuilder();
-      builder.addServer()
-            .host("localhost")
-            .port(11322);
-      RemoteCacheManager rcm = new RemoteCacheManager(builder.build());
+      Configuration cfg = RemoteDataGrid.config().get().build();
+      RemoteCacheManager rcm = new RemoteCacheManager(cfg);
       try {
          RemoteCache<String, Stop> remote = rcm.getCache("analytics");
          remote.execute("add-protobuf", Collections.emptyMap());
@@ -55,7 +63,7 @@ public class InjectApp {
    }
 
    private static void addProtoDescriptorToServer(RemoteCache<String, String> metaCache) throws IOException {
-      metaCache.put("analytics.proto", read(AnalyticsApp.class.getResourceAsStream("/analytics.proto")));
+      metaCache.put("analytics.proto", read(AnalyticsVerticle.class.getResourceAsStream("/analytics.proto")));
       String errors = metaCache.get(".errors");
       if (errors != null)
          throw new AssertionError("Errors found in proto file: " + errors);
@@ -74,10 +82,6 @@ public class InjectApp {
       return ctx;
    }
 
-   private static void injectData(RemoteCache<String, Stop> cache) throws Exception {
-      Injector.inject(cache);
-   }
-
    /**
     * Reads the given InputStream fully, closes the stream and returns the result as a String.
     *
@@ -85,7 +89,7 @@ public class InjectApp {
     * @return the UTF-8 string
     * @throws java.io.IOException in case of stream read errors
     */
-   public static String read(InputStream is) throws IOException {
+   private static String read(InputStream is) throws IOException {
       try {
          final Reader reader = new InputStreamReader(is, "UTF-8");
          StringWriter writer = new StringWriter();
@@ -98,6 +102,15 @@ public class InjectApp {
       } finally {
          is.close();
       }
+   }
+
+   @Override
+   public void stop() throws Exception {
+      if (stops != null)
+         stops.clear();
+
+      if (client != null)
+         client.stop();
    }
 
 }

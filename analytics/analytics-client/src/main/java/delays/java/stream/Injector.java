@@ -12,18 +12,19 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 import org.infinispan.client.hotrod.RemoteCache;
 
-import delays.java.stream.pojos.Stop;
 import delays.java.stream.pojos.Station;
+import delays.java.stream.pojos.Stop;
 import delays.java.stream.pojos.Train;
 import delays.java.stream.util.Gzip;
 
 public class Injector {
 
-   private static final String GZIP_FILE_NAME = "src/main/resources/station-boards-dump-3_weeks.tsv.gz";
+   private static final String GZIP_FILE_NAME = "/station-boards-dump-3_weeks.tsv.gz";
    private static final String GZIP_TARGET_FILE_NAME = String.format(
          "%s/station-boards-dump-3_weeks.tsv",
          System.getProperty("java.io.tmpdir"));
@@ -31,11 +32,25 @@ public class Injector {
    static Calendar calendar = null;
    static String lastDate = "?";
 
-   public static void inject(RemoteCache<String, Stop> cache) throws Exception {
-      Path gunzipped = Gzip.gunzip(new File(GZIP_FILE_NAME), new File(GZIP_TARGET_FILE_NAME));
+   public static void submitData(RemoteCache<String, Stop> cache, io.vertx.core.Future<Void> future) {
+      Executors.newSingleThreadExecutor().submit(() -> {
+         try {
+            inject(cache);
+            future.complete();
+         } catch (Throwable t) {
+            t.printStackTrace();
+         }
+      });
+   }
+
+   private static void inject(RemoteCache<String, Stop> cache) throws Exception {
+      Path gunzipped = Gzip.gunzip(
+            Injector.class.getResourceAsStream(GZIP_FILE_NAME),
+            new File(GZIP_TARGET_FILE_NAME));
       Map<String, Stop> entries =
             timed(() -> loadEntries(gunzipped), "read and split lines");
 
+      System.out.println("Number of entries: " + entries.size());
       timed(() -> storeCache(cache, entries), "store remotely");
    }
 

@@ -231,6 +231,9 @@
                <partition-handling enabled="true"/>
                <state-transfer enabled="true" timeout="6000000" await-initial-transfer="true"/>
             </distributed-cache>
+            <distributed-cache name="analytics">
+               <compatibility enabled="true" marshaller="org.infinispan.query.remote.CompatibilityProtoStreamMarshaller"/>
+            </distributed-cache>
          </cache-container>
       </subsystem>
       <subsystem xmlns="urn:infinispan:server:endpoint:9.0">

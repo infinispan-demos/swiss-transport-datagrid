@@ -1,19 +1,18 @@
 package delays.java.stream.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.zip.GZIPInputStream;
 
 // TODO: Duplicate with real-time <- refactor when refactoring domain
 public class Gzip {
 
-   public static Path gunzip(File from, File to) throws Exception {
+   public static Path gunzip(InputStream from, File to) throws Exception {
       if (!to.exists()) {
          byte[] buffer = new byte[1024];
-         FileInputStream fis = new FileInputStream(from);
-         GZIPInputStream gzis = new GZIPInputStream(fis);
+         GZIPInputStream gzis = new GZIPInputStream(from);
          FileOutputStream out = new FileOutputStream(to);
 
          int len;
