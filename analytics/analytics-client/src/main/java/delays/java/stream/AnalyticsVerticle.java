@@ -84,8 +84,7 @@ public class AnalyticsVerticle extends AbstractVerticle {
    private static JsonObject perHourJson(Map<Integer, Long> m) {
       Map<String, Object> copy = m.entrySet().stream()
             .collect(Collectors.toMap(
-                  //e -> String.format("%02d", e.getKey()),
-                  e -> e.getKey().toString(),
+                  e -> String.format("%02d", e.getKey()),
                   Map.Entry::getValue,
                   throwingMerger(),
                   TreeMap::new));
