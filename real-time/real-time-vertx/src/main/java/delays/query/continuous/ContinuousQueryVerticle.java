@@ -38,6 +38,7 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
 
       stationBoards = client.getCache("default");
       QueryFactory qf = Search.getQueryFactory(stationBoards);
+
       Query query = qf.from(StationBoard.class)
             .having("entries.delayMin").gt(0L)
             .build();
@@ -49,10 +50,7 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
                   value.entries.stream()
                         .filter(e -> e.delayMin > 0)
                         .forEach(e -> {
-                           vertx.runOnContext(x -> {
-                              System.out.println(e);
-                              vertx.eventBus().publish("delays", toJson(key, e));
-                           });
+                           publishDelay(key, e);
                         });
                }
 
@@ -67,6 +65,13 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
 
       continuousQuery = Search.getContinuousQuery(stationBoards);
       continuousQuery.addContinuousQueryListener(query, listener);
+   }
+
+   private void publishDelay(Station key, Stop e) {
+      vertx.runOnContext(x -> {
+         System.out.println(e);
+         vertx.eventBus().publish("delays", toJson(key, e));
+      });
    }
 
    private String toJson(Station station, Stop stop) {

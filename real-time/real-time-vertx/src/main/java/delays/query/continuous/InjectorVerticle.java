@@ -31,6 +31,7 @@ public class InjectorVerticle extends AbstractVerticle {
       addProtoMarshallersToClient(client);
 
       stationBoards = client.getCache("default");
+      stationBoards.clear();
       injectFuture = Injector.submitCycle(stationBoards, stopped);
    }
 
