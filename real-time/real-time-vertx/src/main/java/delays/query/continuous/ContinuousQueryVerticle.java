@@ -39,19 +39,14 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
       stationBoards = client.getCache("default");
       QueryFactory qf = Search.getQueryFactory(stationBoards);
 
-      Query query = qf.from(StationBoard.class)
-            .having("entries.delayMin").gt(0L)
-            .build();
+      // TODO: Demo Event Broker - 1.1 - Implement Query
+      Query query = null;
 
       ContinuousQueryListener<Station, StationBoard> listener =
             new ContinuousQueryListener<Station, StationBoard>() {
                @Override
                public void resultJoining(Station key, StationBoard value) {
-                  value.entries.stream()
-                        .filter(e -> e.delayMin > 0)
-                        .forEach(e -> {
-                           publishDelay(key, e);
-                        });
+                  // TODO: Demo Event Broker - 1.2 - Push delayed stops
                }
 
                @Override
@@ -64,7 +59,8 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
             };
 
       continuousQuery = Search.getContinuousQuery(stationBoards);
-      continuousQuery.addContinuousQueryListener(query, listener);
+
+      // TODO: Demo Event Broker - 1.3 - Add continuous query
    }
 
    private void publishDelay(Station key, Stop e) {
