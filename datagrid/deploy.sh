@@ -2,9 +2,13 @@
 
 set -e -x
 
-(cd ../analytics; mvn clean package -pl analytics-server -am)
 rm -drf target
 mkdir target
+
+(cd ../analytics; mvn clean install -pl analytics-domain -am)
+cp ../analytics/analytics-domain/target/analytics-domain-1.0-SNAPSHOT.jar target/analytics-domain.jar
+
+(cd ../analytics; mvn clean install -pl analytics-server)
 cp ../analytics/analytics-server/target/analytics-server-1.0-SNAPSHOT.jar target/analytics-server.jar
 
 oc login -u system:admin

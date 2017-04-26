@@ -1,4 +1,4 @@
-package delays.java.stream;
+package delays.java.stream.proto;
 
 import org.infinispan.manager.EmbeddedCacheManager;
 import org.infinispan.query.remote.ProtobufMetadataManager;
@@ -26,16 +26,9 @@ public class AddProtobufTask implements ServerTask {
 
    @Override
    public Object call() throws Exception {
-//      ProtobufMetadataManager protobufMetadataManager = cm.getGlobalComponentRegistry().getComponent(ProtobufMetadataManager.class);
-//      protobufMetadataManager.registerProtofile("analytics.proto",
-//            Util.read(Util.getResourceAsStream("analytics.proto", getClass().getClassLoader())));
-//
-//      String fileErrors = protobufMetadataManager.getFileErrors("analytics.proto");
-//      if (fileErrors != null)
-//         throw new Exception("Error parsing file words.proto: " + fileErrors);
-
       EmbeddedCacheManager cm = ctx.getCache().get().getCacheManager();
-      ProtobufMetadataManager protobufMetadataManager = cm.getGlobalComponentRegistry().getComponent(ProtobufMetadataManager.class);
+      ProtobufMetadataManager protobufMetadataManager =
+            cm.getGlobalComponentRegistry().getComponent(ProtobufMetadataManager.class);
       protobufMetadataManager.registerMarshaller(new Stop.Marshaller());
       protobufMetadataManager.registerMarshaller(new Station.Marshaller());
       protobufMetadataManager.registerMarshaller(new Train.Marshaller());

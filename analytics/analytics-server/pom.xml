@@ -24,6 +24,7 @@
       <groupId>swiss-transport-datagrid</groupId>
       <artifactId>analytics-domain</artifactId>
       <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
 
     <dependency>

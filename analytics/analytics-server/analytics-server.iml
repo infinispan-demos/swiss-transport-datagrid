@@ -10,7 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="analytics-domain" />
+    <orderEntry type="module" module-name="analytics-domain" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.infinispan:infinispan-tasks-api:9.0.0.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.infinispan:infinispan-core:9.0.0.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.infinispan:infinispan-commons:9.0.0.Final" level="project" />
