@@ -2,14 +2,17 @@
 
 set -e -x
 
-rm -drf target
-mkdir target
+DEPLOY=target
+#DEPLOY=/opt/deployments
+
+rm -drf $DEPLOY
+mkdir $DEPLOY
 
 (cd ../analytics; mvn clean install -pl analytics-domain -am)
-cp ../analytics/analytics-domain/target/analytics-domain-1.0-SNAPSHOT.jar target/analytics-domain.jar
+cp ../analytics/analytics-domain/target/analytics-domain-1.0-SNAPSHOT.jar $DEPLOY/analytics-domain.jar
 
 (cd ../analytics; mvn clean install -pl analytics-server)
-cp ../analytics/analytics-server/target/analytics-server-1.0-SNAPSHOT.jar target/analytics-server.jar
+cp ../analytics/analytics-server/target/analytics-server-1.0-SNAPSHOT.jar $DEPLOY/analytics-server.jar
 
 oc login -u system:admin
 oc adm policy add-scc-to-user hostaccess system:serviceaccount:myproject:default -n myproject

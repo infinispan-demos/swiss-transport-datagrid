@@ -82,6 +82,7 @@ items:
         - name: app-jar-volume
           hostPath:
             path: /Users/g/0/events/gids17/swiss-transport-datagrid/datagrid/target
+#            path: /opt/deployments
     triggers:
     - type: ConfigChange
 - apiVersion: v1
