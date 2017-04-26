@@ -59,7 +59,9 @@ The final objective of the demo is to use historic data of train station board i
 
 To help answer this question, a remote cache is defined to contain historic information of all train stops keyed by train id:  
 
-    RemoteCache<String, Stop>
+```java
+RemoteCache<String, Stop>
+```
     
 *Note: A train goes through multiple stations and hence it has multiple stops.
 For simplicity, only the last stop in terms of time is kept*
@@ -84,11 +86,15 @@ Below are more detailed instructions on how to run the demo.
 
 Start OpenShift cluster:
 
-    oc cluster up --public-hostname=127.0.0.1
+```bash
+$ oc cluster up --public-hostname=127.0.0.1
+```
     
 Next, deploy all the applications required by the demo:
 
-    ./deploy-all.sh 
+```bash
+$ ./deploy-all.sh
+```
 
 Open browser (preferably Chrome) and check the [console](https://127.0.0.1:8443/console/project/myproject/overview) to see if pods are up.
 There are alternative ways to verify the status of applications on OpenShift.
@@ -96,8 +102,10 @@ Check the OpenShift documentation for more details.
 
 Next, open the Jupyter notebook for this demo:
 
-    $ cd analytics/analytics-jupyter
-    $ ~/anaconda/bin/jupyter notebook
+```bash
+$ cd analytics/analytics-jupyter
+$ ~/anaconda/bin/jupyter notebook
+```
 
 Open `delayed-trains-ratio.ipynb` notebook and verify that each cell calculates without an error. 
 The result should show that 2am is the time of the day when there is the biggest ratio of delayed trains.
@@ -116,7 +124,9 @@ As more data is added or removed, the listener gets invoked with any new matches
 
 For this demo, a remote cache is defined as: 
 
-    RemoteCache<Station, StationBoard> stationBoards...
+```java
+RemoteCache<Station, StationBoard> stationBoards...
+```
 
 The final objective of the demo is to present a live-updating table of delayed trains.
 To help achieve this objective, a remote cache should be populated with each station's upcoming train board information at a given time.
@@ -130,33 +140,39 @@ So, once the remote cache has been defined, the following steps are required bef
  
 Next, a query is defined as matching any station boards where at least one of the train stops is delayed:
 
-    QueryFactory qf = Search.getQueryFactory(stationBoards);
-    Query query = qf.from(StationBoard.class)
-        .having("entries.delayMin").gt(0L)
-        .build();
+```java
+QueryFactory qf = Search.getQueryFactory(stationBoards);
+Query query = qf.from(StationBoard.class)
+   .having("entries.delayMin").gt(0L)
+   .build();
+```
 
 Once the query is defined, a continuous query listener is attached to it:
 
-      ContinuousQueryListener<Station, StationBoard> listener = 
-               new ContinuousQueryListener<Station, StationBoard>() {
-         @Override
-         public void resultJoining(Station key, StationBoard value) {
-            // ...
-         }
+```java
+ContinuousQueryListener<Station, StationBoard> listener = 
+         new ContinuousQueryListener<Station, StationBoard>() {
+   @Override
+   public void resultJoining(Station key, StationBoard value) {
+      // ...
+   }
 
-         @Override
-         public void resultUpdated(Station key, StationBoard value) {
-            // ...
-         }
+   @Override
+   public void resultUpdated(Station key, StationBoard value) {
+      // ...
+   }
 
-         @Override
-         public void resultLeaving(Station key) {
-            // ... 
-         }
-      };
+   @Override
+   public void resultLeaving(Station key) {
+      // ... 
+   }
+};
+```
 
-      continuousQuery = Search.getContinuousQuery(stationBoards);
-      continuousQuery.addContinuousQueryListener(query, listener);
+```java
+continuousQuery = Search.getContinuousQuery(stationBoards);
+continuousQuery.addContinuousQueryListener(query, listener);
+```
 
 When the demo application runs, it cycles through some cached station board data and injects that information to the remote cache.
 As data gets updated and delayed station board entries are found, these are sent to the Vert.x event bus.
@@ -167,8 +183,10 @@ The demo contains a JavaFx application for showing the delayed trains dashboard 
 
 If you haven't already, start the OpenShift cluster and deploy all the applications:
 
-    oc cluster up --public-hostname=127.0.0.1
-    ./deploy-all.sh 
+```bash
+$ oc cluster up --public-hostname=127.0.0.1
+$ ./deploy-all.sh 
+```
 
 Next, execute `delays.query.continuous.fx.FxApp` application from the IDE or the command line.
 
