@@ -62,12 +62,14 @@ public class FxTask extends Task<Void> {
          ws.handler(buff -> {
             System.out.println(buff);
             JsonObject json = new JsonObject(new JsonObject(buff.toString()).getString("body"));
-            queue.add(new StationBoardView(json.getString("type"),
-                  json.getString("departure"),
-                  json.getString("station"),
-                  json.getString("destination"),
-                  Integer.toString(json.getInteger("delay")),
-                  json.getString("trainName")));
+
+            Platform.runLater(() ->
+                  partialResults.add(new StationBoardView(json.getString("type"),
+                        json.getString("departure"),
+                        json.getString("station"),
+                        json.getString("destination"),
+                        Integer.toString(json.getInteger("delay")),
+                        json.getString("trainName"))));
          });
       });
    }
