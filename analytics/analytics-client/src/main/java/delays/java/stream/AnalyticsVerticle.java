@@ -33,7 +33,7 @@ public class AnalyticsVerticle extends AbstractVerticle {
 
       // Create a router object.
       Router router = Router.router(vertx);
-      router.get("/delays-ratio").handler(this::getDelaysRatio);
+      router.get("/delays-ratio").blockingHandler(this::getDelaysRatio);
 
       // Create the HTTP server and pass the "accept" method to the request handler.
       vertx
