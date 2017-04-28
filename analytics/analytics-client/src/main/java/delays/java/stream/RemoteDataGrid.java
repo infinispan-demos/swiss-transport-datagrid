@@ -8,7 +8,7 @@ import org.infinispan.client.hotrod.marshall.ProtoStreamMarshaller;
 
 final class RemoteDataGrid {
 
-   private static final String SERVER_HOST = System.getProperty("server.host", "datagrid-repo");
+   private static final String SERVER_HOST = System.getProperty("server.host", "datagrid");
    private static final int SERVER_PORT = Integer.getInteger("server.port", 11222);
 
    static Supplier<ConfigurationBuilder> config() {

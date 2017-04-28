@@ -7,7 +7,7 @@ items:
   metadata:
     labels:
       cluster: "datagrid"
-    name: datagrid-repo
+    name: datagrid
   spec:
     replicas: 3
     strategy:
@@ -90,7 +90,7 @@ items:
   metadata:
     labels:
       cluster: "datagrid"
-    name: "datagrid-repo-cache"
+    name: "datagrid"
   spec:
     ports:
     - name: kube-ping
@@ -104,68 +104,3 @@ items:
     selector:
       cluster: "datagrid"
     type: ClusterIP
-- apiVersion: v1
-  kind: Service
-  metadata:
-    name: "datagrid-repo"
-  spec:
-    ports:
-    - name: kube-ping
-      port: 8888
-      protocol: TCP
-      targetPort: 8888
-    - name: hotrod
-      port: 11222
-      protocol: TCP
-      targetPort: 11222
-    selector:
-      cluster: "datagrid"
-    type: LoadBalancer
-#- apiVersion: v1
-#  kind: Service
-#  metadata:
-#    creationTimestamp: null
-#    labels:
-#      group: org.infinispan.microservices
-#      project: session-demo
-#      provider: fabric8
-#      version: 1.0.0-SNAPSHOT
-#    name: session-demo
-#  spec:
-#    ports:
-#    - port: 8080
-#      protocol: TCP
-#      targetPort: 8080
-#    selector:
-#      group: org.infinispan.microservices
-#      project: session-demo
-#      provider: fabric8
-#    sessionAffinity: None
-#    type: ClusterIP
-#- apiVersion: v1
-#  kind: Route
-#  metadata:
-#    labels:
-#      group: org.infinispan.microservices
-#      project: session-demo
-#      provider: fabric8
-#      version: 1.0.0-SNAPSHOT
-#    name: session-demo
-#  spec:
-#    host: session-demo-myproject.192.168.0.17.nip.io
-#    port:
-#      targetPort: 8080
-#    to:
-#      kind: Service
-#      name: session-demo
-#      weight: 100
-#    wildcardPolicy: None
-#  status:
-#    ingress:
-#    - conditions:
-#      - lastTransitionTime: 2017-03-07T08:10:22Z
-#        status: "True"
-#        type: Admitted
-#      host: session-demo-myproject.192.168.0.17.nip.io
-#      routerName: router
-#      wildcardPolicy: None
