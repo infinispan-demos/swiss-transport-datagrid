@@ -1,38 +1,36 @@
 # First Time
 
 - [ ] Install
-[Docker](https://www.docker.com)
-. If running OSX, Docker
+[Docker](https://www.docker.com).
+If running OSX, Docker
 [1.13.1](https://download.docker.com/mac/stable/1.13.1.15353/Docker.dmg)
-is known to be compatible with the demo. 
+is compatible with the demo.
+Newer versions might work but some conflicts have been found with Kubernetes.
 
 - [ ] Install
 [OpenShift Origin](https://www.openshift.org)
 or
-[Minishift](https://github.com/minishift/minishift)
-. If running OSX,
+[Minishift](https://github.com/minishift/minishift).
+If running OSX,
 [OpenShift Origin 1.4.1](https://github.com/openshift/origin/releases/tag/v1.4.1)
 is known to work with Docker version above.
 The instructions below assume you're using OpenShift Origin.
 
 - [ ] Install
-[Maven 3](https://maven.apache.org/download.cgi)
-.
+[Maven 3](https://maven.apache.org/download.cgi).
 
 - [ ] Install
-[Kubetail](https://github.com/johanhaleby/kubetail)
-.
+[Kubetail](https://github.com/johanhaleby/kubetail).
 
 - [ ] Install Jupyter via 
-[Anaconda](https://www.continuum.io/downloads)
-.
+[Anaconda](https://www.continuum.io/downloads).
 
 # Pre talk
 
 - [ ] Check out `pre-early17` branch.
 
 ```bash
-$ git checkout pre-early17
+git checkout pre-early17
 ```
 
 - [ ] Adjust `hostPath` in `datagrid/datagrid.yml` to point to the correct folder.
@@ -44,24 +42,23 @@ $ git checkout pre-early17
 - [ ] Start OpenShift cluster:
 
 ```bash
-$ oc cluster up --public-hostname=127.0.0.1
+oc cluster up --public-hostname=127.0.0.1
 ```
 
 - [ ] Deploy all components:
 
 ```bash
-$ ./deploy-all.sh
+./deploy-all.sh
 ```
 
 You can follow progress of deployment of Infinispan server pods via:
 
 ```bash
-$ kubetail -l cluster=datagrid
+kubetail -l cluster=datagrid
 ```
 
 - [ ] Open Chrome and 
-[verify all pods are running](https://127.0.0.1:8443/console/project/myproject/overview)
-.
+[verify all pods are running](https://127.0.0.1:8443/console/project/myproject/overview).
 
 - [ ] Start Jupyter, open `live-demo.ipynb` and verify that the URL returns `0` results:
 
