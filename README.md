@@ -202,3 +202,26 @@ To be more specific, it contains this [commit](https://github.com/galderz/infini
 This is just a temporary measure until default secured configuration works without hitches.
 * Adds a module dependency to the server distribution so that `org.infinispan.query.remote.CompatibilityProtoStreamMarshaller` can be set as compatibility mode marshaller.
 More details can be found in [ISPN-7711](https://issues.jboss.org/browse/ISPN-7711).
+
+
+# Live Events
+ 
+Here's a list of conferences and user groups where this demo has been presented.
+The `live-events` folder contains step-by-step instructions of the demos, as presented in these live events:
+
+* 27th April 2017 - Great Indian Developer Summit 2017
+(
+[slides](https://speakerdeck.com/galderz/big-data-in-action-with-infinispan)
+|
+video NA
+|
+[live demo steps](live-events/gids17.md)
+)
+
+
+# Blogs
+
+Here's a list of blog posts where this demo has been featured:
+
+* 5th May 2017 -
+[Reactive Big Data on OpenShift In-Memory Data Grids](http://blog.infinispan.org/2017/05/reactive-big-data-on-openshift-in.html) 
