@@ -1,7 +1,24 @@
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Introduction](#introduction)
+- [Pre-requisites](#pre-requisites)
+- [Application Domain](#application-domain)
+- [Analytics Demo](#analytics-demo)
+	- [Running Demo](#running-demo)
+		- [Possible issues](#possible-issues)
+- [Real-Time Demo](#real-time-demo)
+	- [Running Demo](#running-demo-1)
+- [Reference](#reference)
+	- [Infinispan Server Docker Image](#infinispan-server-docker-image)
+- [Live Events](#live-events)
+- [Blogs](#blogs)
+
+
 # Introduction 
 
 This is a repository contaning example applications/demos based on the Swiss transport data set. 
 It shows how to use Infinispan for real-time and offline analytics use cases.
+
 
 # Pre-requisites
 
@@ -82,18 +99,19 @@ Then, the result can be consumed by a Jupyter notebook to provide a plot that an
 
 Below are more detailed instructions on how to run the demo.
 
+
 ## Running Demo
 
 Start OpenShift cluster:
 
 ```bash
-$ oc cluster up --public-hostname=127.0.0.1
+oc cluster up --public-hostname=127.0.0.1
 ```
     
 Next, deploy all the applications required by the demo:
 
 ```bash
-$ ./deploy-all.sh
+./deploy-all.sh
 ```
 
 Open browser (preferably Chrome) and check the [console](https://127.0.0.1:8443/console/project/myproject/overview) to see if pods are up.
@@ -103,8 +121,8 @@ Check the OpenShift documentation for more details.
 Next, open the Jupyter notebook for this demo:
 
 ```bash
-$ cd analytics/analytics-jupyter
-$ ~/anaconda/bin/jupyter notebook
+cd analytics/analytics-jupyter
+~/anaconda/bin/jupyter notebook
 ```
 
 Open `delayed-trains-ratio.ipynb` notebook and verify that each cell calculates without an error. 
@@ -114,6 +132,7 @@ The result should show that 2am is the time of the day when there is the biggest
 
 While running the demo, you might find that the application route server host is not available.
 If that's the case, switch from `xip.io` to `nip.io`, or use a hosts file manager like [Gas Mask](https://github.com/2ndalpha/gasmask)(thx Clement for tip!).
+
 
 # Real-Time Demo
 
@@ -184,8 +203,8 @@ The demo contains a JavaFx application for showing the delayed trains dashboard 
 If you haven't already, start the OpenShift cluster and deploy all the applications:
 
 ```bash
-$ oc cluster up --public-hostname=127.0.0.1
-$ ./deploy-all.sh 
+oc cluster up --public-hostname=127.0.0.1
+./deploy-all.sh 
 ```
 
 Next, execute `delays.query.continuous.fx.FxApp` application from the IDE or the command line.
@@ -193,7 +212,7 @@ Next, execute `delays.query.continuous.fx.FxApp` application from the IDE or the
 
 # Reference
 
-### Infinispan Server Docker Image
+## Infinispan Server Docker Image
 
 The demo currently uses a custom Infinispan Server 9.0.x [docker image](https://hub.docker.com/r/galderz/infinispan-server).
 To be more specific, it contains this [commit](https://github.com/galderz/infinispan/commit/1e092e9e993c784a80e2b043fc6d2a4b3b07a822) which does a couple of things:
