@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/board-rest/board-rest.iml" filepath="$PROJECT_DIR$/board-rest/board-rest.iml" />
       <module fileurl="file://$PROJECT_DIR$/datagrid/datagrid.iml" filepath="$PROJECT_DIR$/datagrid/datagrid.iml" />
       <module fileurl="file://$PROJECT_DIR$/real-time/real-time-vertx/http-vertx.iml" filepath="$PROJECT_DIR$/real-time/real-time-vertx/http-vertx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/live-events/live-events.iml" filepath="$PROJECT_DIR$/live-events/live-events.iml" />
       <module fileurl="file://$PROJECT_DIR$/real-time/real-time-fx/real-time-fx.iml" filepath="$PROJECT_DIR$/real-time/real-time-fx/real-time-fx.iml" />
       <module fileurl="file://$PROJECT_DIR$/station-board-html/station-board-html.iml" filepath="$PROJECT_DIR$/station-board-html/station-board-html.iml" />
       <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
