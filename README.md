@@ -236,6 +236,14 @@ video NA
 |
 [live demo steps](live-events/gids17.md)
 )
+* 13th June 2017 - Berlin Buzzwords 2017
+(
+[slides](https://speakerdeck.com/galderz/big-data-in-action-1)
+|
+[video](https://www.youtube.com/watch?v=Q0AaSKdhhwg)
+|
+[live demo steps](live-events/bbuzz17.md)
+)
 
 
 # Blogs
