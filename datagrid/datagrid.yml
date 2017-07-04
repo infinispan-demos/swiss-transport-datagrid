@@ -30,7 +30,7 @@ items:
           - custom/server-config
           - -Djboss.default.jgroups.stack=kubernetes
           - --debug
-          image: galderz/infinispan-server:9.0.x-1e092e9e993c
+          image: jboss/infinispan-server:9.0.3.Final
           imagePullPolicy: Always
           name: infinispan-server
           ports:
