@@ -250,6 +250,6 @@ video NA
 
 Here's a list of blog posts where this demo has been featured:
 
-* 6th July 207 - [Reactive Big Data demo working with Infinispan 9.0.3.Final](http://blog.infinispan.org/2017/07/reactive-big-data-demo-working-with.html)
+* 6th July 2017 - [Reactive Big Data demo working with Infinispan 9.0.3.Final](http://blog.infinispan.org/2017/07/reactive-big-data-demo-working-with.html)
 * 5th May 2017 -
 [Reactive Big Data on OpenShift In-Memory Data Grids](http://blog.infinispan.org/2017/05/reactive-big-data-on-openshift-in.html) 
