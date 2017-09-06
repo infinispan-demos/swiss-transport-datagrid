@@ -125,7 +125,7 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-# Other
+# Inspection profiles
 .idea/inspectionProfiles/
 
 
