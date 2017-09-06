@@ -125,6 +125,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Inspection profiles
+.idea/inspectionProfiles/
+
 
 ### macOS.gitignore
 
