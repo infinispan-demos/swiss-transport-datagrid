@@ -244,6 +244,14 @@ video NA
 |
 [live demo steps](live-events/bbuzz17.md)
 )
+* 7th September 2017 - DevNation Live 2017
+(
+[slides](https://speakerdeck.com/galderz/big-data-in-action-with-infinispan-2)
+|
+[video](https://www.youtube.com/watch?v=ZUZeAfdmeX0)
+|
+[live demo steps](live-events/devnation17.md)
+)
 
 
 # Blogs
