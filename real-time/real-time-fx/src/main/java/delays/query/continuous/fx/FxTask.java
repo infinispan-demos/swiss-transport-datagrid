@@ -15,7 +15,7 @@ import javafx.concurrent.Task;
 
 public class FxTask extends Task<Void> {
 
-   static final String HTTP_HOST = System.getProperty("http.host", "real-time-myproject.127.0.0.1.xip.io");
+   static final String HTTP_HOST = System.getProperty("http.host", "real-time-myproject.127.0.0.1.nip.io");
    static final int HTTP_PORT = Integer.getInteger("http.port", 80);
 
    private ObservableList<StationBoardView> partialResults =
