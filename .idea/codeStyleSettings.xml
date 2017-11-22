@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value>
+        <option name="AUTODETECT_INDENTS" value="false" />
+        <option name="OTHER_INDENT_OPTIONS">
+          <value>
+            <option name="INDENT_SIZE" value="3" />
+            <option name="CONTINUATION_INDENT_SIZE" value="6" />
+            <option name="TAB_SIZE" value="3" />
+            <option name="USE_TAB_CHARACTER" value="true" />
+            <option name="SMART_TABS" value="false" />
+            <option name="LABEL_INDENT_SIZE" value="0" />
+            <option name="LABEL_INDENT_ABSOLUTE" value="false" />
+            <option name="USE_RELATIVE_INDENTS" value="false" />
+          </value>
+        </option>
+        <option name="LINE_SEPARATOR" value="&#10;" />
+        <option name="CLASS_COUNT_TO_USE_IMPORT_ON_DEMAND" value="10" />
+        <option name="NAMES_COUNT_TO_USE_IMPORT_ON_DEMAND" value="10" />
+        <option name="RIGHT_MARGIN" value="79" />
+        <option name="JD_ALIGN_PARAM_COMMENTS" value="false" />
+        <option name="JD_ALIGN_EXCEPTION_COMMENTS" value="false" />
+        <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+        <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
+        <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+        <option name="ALIGN_MULTILINE_PARENTHESIZED_EXPRESSION" value="true" />
+        <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+        <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+        <option name="WRAP_COMMENTS" value="true" />
+        <XML>
+          <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+        </XML>
+        <ADDITIONAL_INDENT_OPTIONS fileType="clj">
+          <option name="INDENT_SIZE" value="3" />
+          <option name="TAB_SIZE" value="3" />
+        </ADDITIONAL_INDENT_OPTIONS>
+        <ADDITIONAL_INDENT_OPTIONS fileType="gsp">
+          <option name="INDENT_SIZE" value="2" />
+        </ADDITIONAL_INDENT_OPTIONS>
+        <ADDITIONAL_INDENT_OPTIONS fileType="sass">
+          <option name="INDENT_SIZE" value="2" />
+        </ADDITIONAL_INDENT_OPTIONS>
+        <codeStyleSettings language="CoffeeScript">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+        </codeStyleSettings>
+        <codeStyleSettings language="Groovy">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="HTML">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="0" />
+            <option name="TAB_SIZE" value="1" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="JAVA">
+          <option name="BLANK_LINES_AFTER_CLASS_HEADER" value="1" />
+          <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+          <option name="ALIGN_MULTILINE_THROWS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_PARENTHESIZED_EXPRESSION" value="true" />
+          <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="INDENT_SIZE" value="3" />
+            <option name="CONTINUATION_INDENT_SIZE" value="3" />
+            <option name="TAB_SIZE" value="3" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="JavaScript">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="CONTINUATION_INDENT_SIZE" value="8" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="Python">
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+        </codeStyleSettings>
+        <codeStyleSettings language="SQL">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="3" />
+            <option name="TAB_SIZE" value="3" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="Scala">
+          <option name="ALIGN_MULTILINE_PARAMETERS" value="false" />
+          <option name="ALIGN_MULTILINE_PARENTHESIZED_EXPRESSION" value="true" />
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+          <indentOptions>
+            <option name="CONTINUATION_INDENT_SIZE" value="4" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="TypeScript">
+          <option name="ALIGN_MULTILINE_PARAMETERS_IN_CALLS" value="true" />
+          <option name="ALIGN_MULTILINE_EXTENDS_LIST" value="true" />
+          <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+          <option name="KEEP_SIMPLE_BLOCKS_IN_ONE_LINE" value="true" />
+          <option name="PARENT_SETTINGS_INSTALLED" value="true" />
+        </codeStyleSettings>
+        <codeStyleSettings language="XML">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="4" />
+            <option name="TAB_SIZE" value="2" />
+          </indentOptions>
+        </codeStyleSettings>
+      </value>
+    </option>
+    <option name="USE_PER_PROJECT_SETTINGS" value="true" />
+  </component>
+</project>

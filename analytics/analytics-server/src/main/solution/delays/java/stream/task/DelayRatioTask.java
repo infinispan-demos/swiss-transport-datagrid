@@ -40,13 +40,24 @@ public class DelayRatioTask implements ServerTask {
 
       Cache<String, Stop> cache = getCache();
 
-      // TODO: Demo Analytics - 2.1 - Implement totalPerHour
-      Map<Integer, Long> totalPerHour = Collections.emptyMap();
+      Map<Integer, Long> totalPerHour = cache.values().stream()
+            .collect(
+                  serialize(() -> Collectors.groupingBy(
+                        e -> getHourOfDay(e.departureTs),
+                        Collectors.counting()
+                  )));
 
-      // TODO: Demo Analytics - 2.2 - Implement delayedPerHour
-      Map<Integer, Long> delayedPerHour = Collections.emptyMap();
+      Map<Integer, Long> delayedPerHour = cache.values().stream()
+            .filter(e -> e.delayMin > 0)
+            .collect(
+                  serialize(() -> Collectors.groupingBy(
+                        e -> getHourOfDay(e.departureTs),
+                        Collectors.counting()
+                  )));
 
       return Arrays.asList(delayedPerHour, totalPerHour);
+
+//      return Arrays.asList(Collections.emptyMap(), Collections.emptyMap());
    }
 
    @Override
