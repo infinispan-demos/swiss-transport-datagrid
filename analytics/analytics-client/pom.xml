@@ -54,10 +54,14 @@
     <dependency>
       <groupId>org.infinispan</groupId>
       <artifactId>infinispan-client-hotrod</artifactId>
+      <!-- TODO: Version needed? ISPN-8552 -->
+      <version>${infinispan.version}</version>
     </dependency>
     <dependency>
       <groupId>org.infinispan</groupId>
       <artifactId>infinispan-remote-query-client</artifactId>
+      <!-- TODO: Version needed? ISPN-8552 -->
+      <version>${infinispan.version}</version>
     </dependency>
     <dependency>
       <groupId>org.infinispan.protostream</groupId>

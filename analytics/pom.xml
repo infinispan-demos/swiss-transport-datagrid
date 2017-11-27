@@ -13,7 +13,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <infinispan.version>9.0.0.Final</infinispan.version>
+    <infinispan.version>9.2.0.Beta1</infinispan.version>
   </properties>
 
   <modules>

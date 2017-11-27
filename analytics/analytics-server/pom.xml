@@ -30,12 +30,16 @@
     <dependency>
       <groupId>org.infinispan</groupId>
       <artifactId>infinispan-tasks-api</artifactId>
+      <!-- TODO: Version needed? ISPN-8552 -->
+      <version>${infinispan.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>org.infinispan</groupId>
       <artifactId>infinispan-remote-query-server</artifactId>
+      <!-- TODO: Version needed? ISPN-8552 -->
+      <version>${infinispan.version}</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

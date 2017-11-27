@@ -30,7 +30,7 @@ items:
           - custom/server-config
           - -Djboss.default.jgroups.stack=kubernetes
           - --debug
-          image: jboss/infinispan-server:9.0.3.Final
+          image: jboss/infinispan-server:9.2.0.Alpha2
           imagePullPolicy: Always
           name: infinispan-server
           ports:
@@ -42,6 +42,10 @@ items:
           - name: OPENSHIFT_KUBE_PING_LABELS
             value: "cluster=datagrid"
           - name: OPENSHIFT_KUBE_PING_NAMESPACE
+            valueFrom: {fieldRef: {apiVersion: v1, fieldPath: metadata.namespace}}
+          - name: KUBERNETES_LABELS
+            value: "cluster=datagrid"
+          - name: KUBERNETES_NAMESPACE
             valueFrom: {fieldRef: {apiVersion: v1, fieldPath: metadata.namespace}}
           - name: JAVA_OPTS
             value: "-server -Xms128m -Xmx1024m -XX:+UseConcMarkSweepGC -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -XX:+PrintGC"

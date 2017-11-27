@@ -12,11 +12,10 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.infinispan.Cache;
-import org.infinispan.stream.CacheCollectors;
+import org.infinispan.commons.dataconversion.IdentityEncoder;
 import org.infinispan.tasks.ServerTask;
 import org.infinispan.tasks.TaskContext;
 import org.infinispan.tasks.TaskExecutionMode;
-import org.infinispan.util.function.SerializableSupplier;
 
 import delays.java.stream.pojos.Stop;
 
@@ -56,11 +55,8 @@ public class DelayRatioTask implements ServerTask {
 
    @SuppressWarnings("unchecked")
    private <K, V> Cache<K, V> getCache() {
-      return (Cache<K, V>) ctx.getCache().get();
-   }
-
-   private static <T, R> Collector<T, ?, R> serialize(SerializableSupplier<Collector<T, ?, R>> s) {
-      return CacheCollectors.serializableCollector(s);
+      return (Cache<K, V>) ctx.getCache().get().getAdvancedCache()
+         .withEncoding(IdentityEncoder.class);
    }
 
    private static int getHourOfDay(Date date) {
