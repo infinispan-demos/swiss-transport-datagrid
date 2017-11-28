@@ -252,6 +252,14 @@ video NA
 |
 [live demo steps](live-events/devnation17.md)
 )
+* 23rd November 2017 - Madrid Java User Group 2017
+(
+[slides](https://speakerdeck.com/galderz/data-grids-descubre-que-esconden-los-datos)
+|
+video NA
+|
+[live demo steps](live-events/madridjug17.md)
+)
 
 
 # Blogs
