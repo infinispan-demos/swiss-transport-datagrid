@@ -38,17 +38,19 @@ public class DelayRatioTask implements ServerTask {
       Cache<String, Stop> cache = getCache();
 
       Map<Integer, Long> totalPerHour = cache.values().stream()
-         .collect(() -> Collectors.groupingBy(
-            e -> getHourOfDay(e.departureTs),
-            Collectors.counting()
-         ));
+         .collect( () ->
+            Collectors.groupingBy(
+               stop -> getHourOfDay( stop.departureTs ),
+               Collectors.counting() )
+         );
 
       Map<Integer, Long> delayedPerHour = cache.values().stream()
-         .filter(e -> e.delayMin > 0)
-         .collect(() -> Collectors.groupingBy(
-            e -> getHourOfDay(e.departureTs),
-            Collectors.counting()
-         ));
+         .filter( stop -> stop.delayMin > 0 )
+         .collect( () ->
+            Collectors.groupingBy(
+               stop -> getHourOfDay( stop.departureTs ),
+               Collectors.counting() )
+         );
 
       return Arrays.asList(delayedPerHour, totalPerHour);
    }

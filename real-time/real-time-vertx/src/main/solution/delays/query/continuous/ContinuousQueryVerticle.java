@@ -39,14 +39,17 @@ public class ContinuousQueryVerticle extends AbstractVerticle {
       stationBoards = client.getCache("default");
       QueryFactory qf = Search.getQueryFactory(stationBoards);
 
-      //TODO write query
-      Query query = null;
+      Query query = qf.from( StationBoard.class )
+         .having("entries.delayMin").gt( 0L )
+         .build();
 
       ContinuousQueryListener<Station, StationBoard> listener =
             new ContinuousQueryListener<Station, StationBoard>() {
                @Override
                public void resultJoining(Station station, StationBoard stationBoard) {
-                  //TODO work on station board
+                  stationBoard.entries.stream()
+                     .filter( stop -> stop.delayMin > 0 )
+                     .forEach( stop -> publishDelay( station, stop  ) );
                }
 
                @Override
